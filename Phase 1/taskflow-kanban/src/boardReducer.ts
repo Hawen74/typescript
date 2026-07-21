@@ -41,7 +41,6 @@ export function boardReducer(state: Board, action: BoardAction): Board {
 
         case "MOVE_CARD": {
             const { cardId, fromColumnId, toColumnId, toIndex } = action.payload;
-            const updatedNewColumn = [...state.columns[toColumnId].cardIds];
             const newCardIds = [...state.columns[toColumnId].cardIds];
             newCardIds.splice(toIndex, 0, cardId);
 

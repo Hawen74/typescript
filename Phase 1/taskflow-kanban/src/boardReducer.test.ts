@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { boardReducer, findColumnIdForCard } from "./boardReducer";
+import { boardReducer, findColumnIdForCard, initialState } from "./boardReducer";
 import type { Board } from "./types";
 
 test("MOVE_CARD moves a card between columns", () => {
