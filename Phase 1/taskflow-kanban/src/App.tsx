@@ -1,7 +1,8 @@
 import { DndContext, type DragEndEvent } from "@dnd-kit/core";
 import { useReducer } from "react";
-import { boardReducer, initialState } from "./boardReducer"; // wherever you export these from
-// (you'll need to export a real `initialState` too, not just the one buried in a test file)
+import "./App.css";
+import { boardReducer, initialState } from "./boardReducer";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 function handleDragEnd(event: DragEndEvent) {
   console.log(event);
@@ -12,18 +13,28 @@ const App = () => {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      {board.columnOrder.map(columnId => {
-        const column = board.columns[columnId];
-        return (
-          <div key={columnId}>
-            <h3>{column.name}</h3>
-            {column.cardIds.map(cardId => {
-              const card = board.cards[cardId];
-              return <div key={cardId}>{card.title}</div>;
-            })}
-          </div>
-        );
-      })}
+      <div className="board">
+        {board.columnOrder.map((columnId) => {
+          const column = board.columns[columnId];
+          return (
+            <div key={columnId} className="column">
+              <h3 className="column-header">{column.name}</h3>
+              <div className="card-list">
+                <SortableContext items={column.cardIds} strategy={verticalListSortingStrategy}>
+                  {column.cardIds.map((cardId) => {
+                    const card = board.cards[cardId];
+                    return (
+                      <div key={cardId} className="card">
+                        {card.title}
+                      </div>
+                    );
+                  })}
+                </SortableContext>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </DndContext>
   );
 };
